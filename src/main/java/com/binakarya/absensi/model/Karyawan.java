@@ -16,6 +16,9 @@ public class Karyawan {
         this.namaLengkap = namaLengkap;
         this.departemen = departemen;
     }
+    
+    public Karyawan() {}
+    
 
     // --- GETTER & SETTER ---
     public String getUidRfid() { return uidRfid; }

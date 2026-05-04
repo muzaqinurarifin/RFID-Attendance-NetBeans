@@ -18,6 +18,8 @@ public class LogAbsensi {
         this.waktuTap = LocalDateTime.now(); // Dibuat instan saat kartu ditap
         this.status = status;
     }
+    
+    public LogAbsensi() {}
 
     public String getIdLog() { return idLog; }
     public String getUidRfid() { return uidRfid; }
