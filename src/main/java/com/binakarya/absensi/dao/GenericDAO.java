@@ -1,48 +1,56 @@
 package com.binakarya.absensi.dao;
 
+import com.binakarya.absensi.utils.MongoManager;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
+import org.bson.conversions.Bson;
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Sesuai Standar Pertemuan 4: Implementasi GenericDAO
- * Memisahkan logika Database agar tidak terjadi redundansi baris kode (DRY Principle).
- */
 public class GenericDAO<T> implements BaseDAO<T> {
     
-    private Class<T> type;
-    
-    // Database Sementara (Mock List) sebelum terhubung ke MongoDB asli (Pertemuan 5)
-    private List<T> mockDatabase;
+    private final MongoCollection<T> collection;
 
-    public GenericDAO(Class<T> type) {
-        this.type = type;
-        this.mockDatabase = new ArrayList<>();
+    // PERBAIKAN: Sekarang menerima nama koleksi secara manual agar tidak membuat koleksi baru otomatis
+    public GenericDAO(String collectionName, Class<T> clazz) {
+        MongoDatabase database = MongoManager.getDatabase();
+        
+        CodecRegistry pojoCodecRegistry = CodecRegistries.fromRegistries(
+                MongoClientSettings.getDefaultCodecRegistry(),
+                CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build())
+        );
+
+        // Menghubungkan langsung ke nama koleksi yang ditentukan
+        this.collection = database.getCollection(collectionName, clazz).withCodecRegistry(pojoCodecRegistry);
     }
 
     @Override
     public void save(T entity) {
-        mockDatabase.add(entity);
-        System.out.println("LOG SYSTEM: Entitas " + type.getSimpleName() + " berhasil disimpan ke memori lokal.");
-    }
-
-    @Override
-    public T findById(String id) {
-        // TODO: Implementasi query baca database asli
-        return null; 
+        collection.insertOne(entity);
     }
 
     @Override
     public List<T> findAll() {
-        return mockDatabase;
+        return collection.find().into(new ArrayList<>());
     }
 
     @Override
-    public void update(T entity) {
-        // TODO: Implementasi pembaruan data
+    public List<T> findMany(Bson filter) {
+        return collection.find(filter).into(new ArrayList<>());
     }
 
     @Override
-    public void delete(String id) {
-        // TODO: Implementasi penghapusan data
+    public void update(Bson filter, T entity) {
+        collection.replaceOne(filter, entity);
+    }
+
+    @Override
+    public void delete(Bson filter) {
+        collection.deleteOne(filter);
     }
 }

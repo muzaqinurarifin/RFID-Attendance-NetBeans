@@ -1,15 +1,12 @@
 package com.binakarya.absensi.dao;
 
+import org.bson.conversions.Bson;
 import java.util.List;
 
-/**
- * Sesuai Standar Pertemuan 4: Blueprint Generic Programming (BaseDAO)
- * Interface ini menetapkan kontrak wajib untuk manipulasi data (CRUD).
- */
 public interface BaseDAO<T> {
-    void save(T entity);
-    T findById(String id);
-    List<T> findAll();
-    void update(T entity);
-    void delete(String id);
+    void save(T entity);                   // Create
+    List<T> findAll();                     // Read All
+    List<T> findMany(Bson filter);         // Search
+    void update(Bson filter, T entity);    // Update
+    void delete(Bson filter);              // Delete
 }

@@ -1,14 +1,15 @@
 package com.binakarya.absensi.model;
 
-/**
- * Entity Class Karyawan Konstruksi
- * Sesuai Standar Pertemuan 3: Menerapkan Enkapsulasi data (private).
- */
+import org.bson.types.ObjectId;
+
 public class Karyawan {
-    private String uidRfid;     // Identifier unik dari kartu fisik RFID pekerja
-    private String idKaryawan;  // Nomor Induk Pekerja (NIP)
-    private String namaLengkap; // Nama Pekerja
-    private String departemen;  // Bidang kerja (contoh: Mandor, Operator, Tukang)
+    private ObjectId id; // Otomatis dipetakan menjadi _id oleh MongoDB
+    private String uidRfid;
+    private String idKaryawan;
+    private String namaLengkap;
+    private String departemen;
+
+    public Karyawan() {}
 
     public Karyawan(String uidRfid, String idKaryawan, String namaLengkap, String departemen) {
         this.uidRfid = uidRfid;
@@ -16,11 +17,11 @@ public class Karyawan {
         this.namaLengkap = namaLengkap;
         this.departemen = departemen;
     }
-    
-    public Karyawan() {}
-    
 
     // --- GETTER & SETTER ---
+    public ObjectId getId() { return id; }
+    public void setId(ObjectId id) { this.id = id; }
+
     public String getUidRfid() { return uidRfid; }
     public void setUidRfid(String uidRfid) { this.uidRfid = uidRfid; }
 
