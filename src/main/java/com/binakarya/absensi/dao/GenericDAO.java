@@ -16,7 +16,6 @@ public class GenericDAO<T> implements BaseDAO<T> {
     
     private final MongoCollection<T> collection;
 
-    // PERBAIKAN: Sekarang menerima nama koleksi secara manual agar tidak membuat koleksi baru otomatis
     public GenericDAO(String collectionName, Class<T> clazz) {
         MongoDatabase database = MongoManager.getDatabase();
         
@@ -25,7 +24,6 @@ public class GenericDAO<T> implements BaseDAO<T> {
                 CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build())
         );
 
-        // Menghubungkan langsung ke nama koleksi yang ditentukan
         this.collection = database.getCollection(collectionName, clazz).withCodecRegistry(pojoCodecRegistry);
     }
 

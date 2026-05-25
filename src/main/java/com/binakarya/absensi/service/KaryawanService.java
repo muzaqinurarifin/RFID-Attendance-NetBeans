@@ -57,7 +57,7 @@ public class KaryawanService {
         // Ambil data lama dari database untuk mempertahankan ObjectId (Cegah immutable error)
         List<Karyawan> dataLama = dao.findMany(filter);
         if (!dataLama.isEmpty()) {
-            newK.setId(dataLama.get(0).getId()); // Copy ID lama ke objek baru
+            newK.setId(dataLama.get(0).getId());
             dao.update(filter, newK); 
         }
     }

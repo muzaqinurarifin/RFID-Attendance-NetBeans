@@ -5,9 +5,9 @@ import org.bson.types.ObjectId;
 public class AdminUser {
     private ObjectId id;
     private String username;
-    private String passwordHash; // Sesuai dengan desain database
+    private String passwordHash;
 
-    // SYARAT WAJIB MONGODB: Constructor Kosong
+
     public AdminUser() {}
 
     public AdminUser(String username, String passwordHash) {

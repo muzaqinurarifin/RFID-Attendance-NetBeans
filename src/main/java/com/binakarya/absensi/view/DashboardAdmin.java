@@ -66,7 +66,7 @@ public class DashboardAdmin extends JFrame {
         btnMenu2.addActionListener(e -> {
             cardLayout.show(mainPanel, "KARYAWAN");
             resetForm(); 
-            refreshData(); // Pastikan data langsung ter-load saat menu diklik
+            refreshData();
         });
         btnMenu3.addActionListener(e -> cardLayout.show(mainPanel, "LOG"));
 
@@ -75,7 +75,7 @@ public class DashboardAdmin extends JFrame {
         sidebar.add(btnMenu3);
         
         JButton btnLogout = buatTombolMenu("Logout");
-        btnLogout.setBackground(Color.decode("#ef4444")); // Warna merah agar kontras
+        btnLogout.setBackground(Color.decode("#ef4444")); 
         btnLogout.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(this, 
                     "Apakah Anda yakin ingin logout?", "Konfirmasi Logout", 
@@ -155,7 +155,7 @@ public class DashboardAdmin extends JFrame {
         cbDept = new JComboBox<>(depts);
         panelForm.add(cbDept);
 
-        // Panel Tombol
+        // panel Tombol
         JPanel panelAksi = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelAksi.setOpaque(false);
         btnSimpan = new JButton("Save"); btnSimpan.setBackground(Color.decode("#3b82f6")); btnSimpan.setForeground(Color.WHITE);
@@ -165,7 +165,7 @@ public class DashboardAdmin extends JFrame {
         btnUpdate.setEnabled(false);
         panelAksi.add(btnSimpan); panelAksi.add(btnUpdate); panelAksi.add(btnRefresh);
 
-        // Panel Pencarian
+        // panel Pencarian
         JPanel panelCari = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelCari.setOpaque(false);
         txtCari = new JTextField(15);
@@ -180,18 +180,15 @@ public class DashboardAdmin extends JFrame {
         panelAtas.add(panelForm, BorderLayout.NORTH);
         panelAtas.add(panelTengahAtas, BorderLayout.SOUTH);
 
-        // --- Panel Bawah (Grid Kartu dengan Wrapper Ajaib) ---
-        panelKartu = new JPanel(new GridLayout(0, 3, 15, 15)); // 0 baris, 3 kolom
+        panelKartu = new JPanel(new GridLayout(0, 3, 15, 15));
         panelKartu.setBackground(Color.decode("#cbd5e1"));
         panelKartu.setBorder(new EmptyBorder(15, 15, 15, 15));
 
-        // INI DIA TRIKNYA: Wrapper Panel
         JPanel panelBungkus = new JPanel(new BorderLayout());
         panelBungkus.setBackground(Color.decode("#cbd5e1"));
-        // Memaku grid kartu ke arah NORTH agar tingginya pas dan tidak melar
         panelBungkus.add(panelKartu, BorderLayout.NORTH); 
 
-        JScrollPane scrollPane = new JScrollPane(panelBungkus); // Yang dimasukkan ke scroll adalah bungkusnya
+        JScrollPane scrollPane = new JScrollPane(panelBungkus);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.setBorder(null);
 
@@ -240,8 +237,7 @@ public class DashboardAdmin extends JFrame {
         for (Karyawan k : list) {
             panelKartu.add(buatKartu(k));
         }
-        
-        // Refresh panel pembungkus agar scroll mendeteksi perubahan ukuran
+       // refresh otomatis untuk mendeteksi scroll      
         panelKartu.revalidate();
         panelKartu.repaint();
     }
@@ -252,7 +248,6 @@ public class DashboardAdmin extends JFrame {
         kartu.setBorder(BorderFactory.createCompoundBorder(
                 new LineBorder(Color.decode("#b45309"), 2), new EmptyBorder(10, 10, 10, 10)));
         
-        // Membatasi tinggi maksimum kartu agar tidak pernah lebih dari ukuran ini
         kartu.setPreferredSize(new Dimension(300, 160)); 
 
         JLabel lblNama = new JLabel("Nama: " + k.getNamaLengkap());

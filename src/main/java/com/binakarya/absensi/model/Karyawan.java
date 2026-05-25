@@ -3,7 +3,7 @@ package com.binakarya.absensi.model;
 import org.bson.types.ObjectId;
 
 public class Karyawan {
-    private ObjectId id; // Otomatis dipetakan menjadi _id oleh MongoDB
+    private ObjectId id; 
     private String uidRfid;
     private String idKaryawan;
     private String namaLengkap;
