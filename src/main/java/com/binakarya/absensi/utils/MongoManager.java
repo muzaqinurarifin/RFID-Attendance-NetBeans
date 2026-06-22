@@ -10,19 +10,19 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 
 public class MongoManager {
     private static MongoClient mongoClient;
+    private static CodecRegistry pojoCodecRegistry;
     private static final String DATABASE_NAME = "binakarya_absensi";
 
     public static MongoDatabase getDatabase() {
         if (mongoClient == null) {
-            CodecRegistry pojoCodecRegistry = CodecRegistries.fromRegistries(
+            pojoCodecRegistry = CodecRegistries.fromRegistries(
                 MongoClientSettings.getDefaultCodecRegistry(),
                 CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build())
             );
 
             mongoClient = MongoClients.create("mongodb://localhost:27017");
-
-            return mongoClient.getDatabase(DATABASE_NAME).withCodecRegistry(pojoCodecRegistry);
         }
-        return mongoClient.getDatabase(DATABASE_NAME);
+
+        return mongoClient.getDatabase(DATABASE_NAME).withCodecRegistry(pojoCodecRegistry);
     }
 }

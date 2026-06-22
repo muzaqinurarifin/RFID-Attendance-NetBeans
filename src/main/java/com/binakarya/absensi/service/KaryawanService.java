@@ -42,13 +42,28 @@ public class KaryawanService {
     }
 
     public List<Karyawan> cariKaryawan(String key) {
+        if (key == null || key.isBlank()) {
+            return ambilSemuaKaryawan();
+        }
+
         List<Bson> filters = new ArrayList<>();
         for (Field field : Karyawan.class.getDeclaredFields()) {
             // Lewati pencarian pada id MongoDB dan uidRfid
             if (field.getName().equals("uidRfid") || field.getName().equals("id")) continue;
             filters.add(Filters.regex(field.getName(), key, "i"));
         }
+        if (filters.isEmpty()) {
+            return ambilSemuaKaryawan();
+        }
         return dao.findMany(Filters.or(filters));
+    }
+
+    public Karyawan cariKaryawanByUid(String uidRfid) {
+        if (uidRfid == null || uidRfid.isBlank()) {
+            return null;
+        }
+        List<Karyawan> hasil = dao.findMany(Filters.eq("uidRfid", uidRfid));
+        return hasil.isEmpty() ? null : hasil.get(0);
     }
 
     public void updateKaryawan(Karyawan newK) {

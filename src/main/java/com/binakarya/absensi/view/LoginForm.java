@@ -1,6 +1,6 @@
 package com.binakarya.absensi.view;
 
-import com.binakarya.absensi.service.AdminService;
+import com.binakarya.absensi.service.AuthService;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -10,11 +10,10 @@ public class LoginForm extends JFrame {
     private JTextField txtUsername;
     private JPasswordField txtPassword;
     private JButton btnLogin;
-    private AdminService adminService;
+    private AuthService authService;
 
     public LoginForm() {
-        adminService = new AdminService();
-        adminService.siapkanAdminAwal();
+        authService = new AuthService();
 
         setTitle("Login - Bina Karya Konstruksi");
         setSize(600, 450); 
@@ -75,11 +74,10 @@ public class LoginForm extends JFrame {
             String uname = txtUsername.getText();
             String pass = new String(txtPassword.getPassword());
 
-            if (adminService.cekLogin(uname, pass)) {
+            if (authService.login(uname, pass)) {
                 JOptionPane.showMessageDialog(this, "Login Berhasil! Selamat Datang, " + uname);
-                
                 new DashboardAdmin().setVisible(true);
-                this.dispose(); 
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Username atau Password salah!", "Login Gagal", JOptionPane.ERROR_MESSAGE);
             }
