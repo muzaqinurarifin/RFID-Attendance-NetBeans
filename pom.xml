@@ -21,5 +21,12 @@
             <artifactId>bson</artifactId>
             <version>5.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.fazecast</groupId>
+            <artifactId>jSerialComm</artifactId>
+            <version>2.11.0</version>
+            <type>jar</type>
+        </dependency>
+
     </dependencies>
 </project>
